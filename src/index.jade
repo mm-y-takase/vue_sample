@@ -1,0 +1,30 @@
+//- frontmatter
+extends ./layouts/layout.jade
+//- /frontmatter
+
+block content
+	h1 view test
+	#app
+		h2 string render
+		{{ message }}
+	#app2
+		h2 v-bind
+		span(v-bind:title="message") hogehogehoge
+	#app3
+		h2 v-if show/hide 
+			sup flag == {{show}} / {{hide}}
+		p(v-if="show") {{show}}
+		p(v-if="hide") {{hide}}
+	#app4
+		h2 array
+		ol
+			li(v-for="todo in todos")
+				{{todo.text}}
+	#app5
+		h2 user Event (v-on:click)
+		p{{message}}
+		button(v-on:click="reverseMessage") reverse message
+	hr
+	#app6
+		ul
+			li(v-for="")
