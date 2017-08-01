@@ -18,6 +18,10 @@
     <link rel="canonical" href="">
     <link href="./css/default.css'">
     <script src="https://unpkg.com/vue"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.14.1/vuedraggable.min.js"></script>
+    <script src="/js/lib/jquery-3.2.1.min.js"></script>
+    <script src="/js/lib/jqueryui/jquery-ui.min.js"></script>
     <script src="/js/default.js"></script>
   </head>
   <body>
@@ -54,8 +58,63 @@
       </div>
       <hr>
       <div id="app6">
-        <ul>
-          <li v-for=""></li>
+        <h2>drag and drop (受け渡しはしない)</h2>
+        <ul v-on="">
+          <li v-for="image in images" draggable="true" v-on:dragstart="vDragstart" v-on:dragenter="vDragenter" v-on:dragover="vDragover" v-on:drop="vdrop" v-bind:data-image-id="image.id">
+            <h3>{{image.id}}</h3>
+          </li>
+        </ul>
+      </div>
+      <div id="app7">
+        <h2>vue.draggable.js</h2>
+        <draggable v-model="images" @onUpdate="onUpdate">
+          <div v-for="image in images">{{image.id}}</div>
+        </draggable>
+      </div>
+      <style>
+        #sortable li{
+        	border: 1px solid #000;
+        	padding: 8px;
+        	padding-left:18px;
+        	list-style:none;
+        	background: #fff;
+        }
+        #sortable li:before{
+        	content: "::";
+        	font-size:18px;
+        	cursor: pointer;
+        }
+      </style>
+      <div id="app8">
+        <h2>jqueryui</h2>
+        <ul id="sortable">
+          <li v-for="image in images" v-bind:data-image-id="image.id">
+            <h3 class="v-image-id">{{image.id}}</h3>
+            <input type="hidden" v-bind:value="image.rank" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][rank]'" v-bind:id="'realtor_room_realtor_room_images_attributes_' + image.id + '_rank'" class="v-image-rank">
+            <input type="hidden" v-bind:value="image.type" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][image_type]'" v-bind:id="'realtor_room_realtor_room_images_attributes_' + image.id + '_image_type'">
+            <input type="hidden" v-bind:value="image.image_id" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][id]'" v-bind:id="'realtor_room_realtor_room_images_attributes_' + image.id + '_id'">
+            <div class="formElem">
+              <div data-realtor-rooms-edit="image" class="imgUpload cf js-previewArea">
+                <div class="imgUpload-thumb">
+                  <div data-realtor-rooms-edit="dnd" class="imgUpload-dnd">
+                    <input value="{}" v-bind:data-reference="image.reference" type="hidden" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][file]'">
+                    <input data-realtor-rooms-edit="input" v-bind:data-reference="image.reference" accept="image/jpeg,image/png" type="file" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][file]'" v-bind:id="'realtor_room_realtor_room_images_attributes_' + image.id + '_file'" class="imgUpload-input">
+                  </div>
+                  <div data-realtor-rooms-edit="thumbnail" class="imgUpload-img"><span class="img"><img v-bind:src="image.url" alt="Mm room img" class="attachment realtor_room_image file"></span></div>
+                </div>
+                <div class="imgUpload-inner">
+                  <div class="imgUpload-delete">
+                    <label>
+                      <input v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][_destroy]'" type="hidden" value="0">
+                      <input type="checkbox" value="1" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][_destroy]'" id="'realtor_room_realtor_room_images_attributes_' + image.id + '__destroy'">画像を削除
+                    </label>
+                  </div>
+                  <p>キャプション（30文字以内）</p>
+                  <input placeholder="例）キッチンは人気のアイランドキッチン" maxlength="30" size="30" type="text" v-bind:value="image.caption" v-bind:name="'realtor_room[realtor_room_images_attributes][' + image.id + '][caption]'" v-bind:id="'realtor_room_realtor_room_images_attributes_' + image.id + '_caption'">
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
 
